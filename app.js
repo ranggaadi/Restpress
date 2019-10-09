@@ -3,12 +3,23 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+//menggunakan mongoose (tambahan user)
+var mongoose = require('mongoose');
 
 //dicomment karena tidak digunakan lagi, karena menggunakan controller
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
 var app = express();
+
+//connect ke mongodb menggunakan sintaks dibawah ini (tambahan user)
+mongoose.connect('mongodb://localhost:27017/express_app', { useNewUrlParser: true, useUnifiedTopology: true }, () => {
+  console.log("Koneksi ke mongodb sudah dibuat");
+})
+.catch(err => {
+  console.log('App starting error: ', err.stack);
+  process.exit(1);
+});
 
 //require file-system module (tambahan user sendiri)
 var fs = require('file-system');
