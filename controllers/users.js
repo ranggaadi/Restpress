@@ -69,4 +69,24 @@ module.exports.controller = (app) =>{
             })
         })
     })
+
+    //DELETE (hapus user)
+    app.delete('/users/:id', (req, res)=>{
+        User.remove(
+            {
+                _id : req.params.id
+            }, (error, user) => {
+                if(error){
+                    console.log(error)
+                }
+
+                res.send(
+                    {
+                        success : true,
+                        user : user
+                    }
+                )
+            }
+        )
+    })
 }
