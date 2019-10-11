@@ -34,4 +34,20 @@ module.exports.controller = (app) =>{
             res.send(user);
         })
     })
+
+    //POST a new user (menggunakan raw)
+    app.post('/users', (req, res) => {
+        const newUser = new User({
+            name : req.body.name,
+            email : req.body.email
+        })
+
+        newUser.save((error, user)=>{
+            if(error){
+                console.log(error)
+            }
+
+            res.send(user);
+        })
+    })
 }
