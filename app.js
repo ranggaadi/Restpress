@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+//require file-system module (tambahan user sendiri)
+var fs = require('file-system');
 //menggunakan mongoose (tambahan user)
 var mongoose = require('mongoose');
 
@@ -13,7 +15,7 @@ var mongoose = require('mongoose');
 var app = express();
 
 //connect ke mongodb menggunakan sintaks dibawah ini (tambahan user)
-mongoose.connect('mongodb://localhost:27017/express_app', { useNewUrlParser: true, useUnifiedTopology: true }, () => {
+mongoose.connect('mongodb://localhost:27017/express_app', { useNewUrlParser: true, useUnifiedTopology: true, useMongoClient : true }, () => {
   console.log("Koneksi ke mongodb sudah dibuat");
 })
 .catch(err => {
@@ -21,8 +23,12 @@ mongoose.connect('mongodb://localhost:27017/express_app', { useNewUrlParser: tru
   process.exit(1);
 });
 
-//require file-system module (tambahan user sendiri)
-var fs = require('file-system');
+//tambahan untuk test api menggunkan postman
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Koneksi error'));
+db.once('open', (callback) => {
+  console.log("Koneksi sukses");
+})
 
 //Include controller (tambahan user sendiri)
 fs.readdirSync('controllers').forEach((file) => {
