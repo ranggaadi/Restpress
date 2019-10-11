@@ -50,4 +50,23 @@ module.exports.controller = (app) =>{
             res.send(user);
         })
     })
+
+    //PUT (update the user)
+    app.put('/users/:id', (req, res)=>{
+        User.findById(req.params.id, 'name email', (error, user)=>{
+            if(error){
+                console.error(error);
+            }
+
+            user.name = req.body.name
+            user.email = req.body.email
+            user.save((error, user)=>{
+                if(error){
+                    console.log(error)
+                }
+                
+                res.send(user)
+            })
+        })
+    })
 }
